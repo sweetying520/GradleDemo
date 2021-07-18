@@ -1,0 +1,497 @@
+apply plugin: 'com.android.application'
+//noinspection UnnecessaryQualifiedReference
+apply plugin: com.dorongold.gradle.tasktree.TaskTreePlugin
+
+android {
+    compileSdkVersion androidConfig.compileSdkVersion
+
+    defaultConfig {
+        applicationId androidConfig.applicationId
+        minSdkVersion androidConfig.minSdkVersion
+        targetSdkVersion androidConfig.targetSdkVersion
+        versionCode androidConfig.versionCode
+        versionName androidConfig.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+def implementationLibMap = implementationLib
+def testImplementationLibMap = testImplementationLib
+def androidTestImplementationLibMap = androidTestImplementationLib
+
+dependencies {
+    implementationLibMap.each{k,v ->
+        implementation v
+    }
+
+    testImplementationLibMap.each{k,v ->
+        testImplementation v
+    }
+
+    androidTestImplementationLibMap.each{k,v ->
+        androidTestImplementation v
+    }
+}
+
+//======================================= Project 常用 API start=====================================
+/**
+ * 1、获取根 Project 对象
+ */
+//println getRootProject()
+
+/**
+ * 2、获取根目录文件夹路径
+ */
+//println getRootDir()
+
+/**
+ * 3、获取当前 Project 的 build 文件夹路径
+ */
+//println getBuildDir()
+
+/**
+ * 4、获取当前父 Project 对象
+ */
+//println getParent()
+
+
+//======================================= Project 常用 API end=====================================
+
+//======================================= 扩展属性调用 start=========================================
+/**
+ * 方式一：
+ * 下面这种写法之所以能这么写
+ * 1、ext 定义的扩展属性调用的时候可以去掉 ext 前缀直接调用
+ * 2、子 Project 能拿到根 Project 中的属性和方法
+ */
+//println test
+//println test1
+//println test2
+
+
+/**
+ * 方式二：
+ */
+//2、ext 定义的扩展属性也可以通过 当前定义扩展属性的 Project 对象.ext.属性名 调用
+//println rootProject.ext.test
+//println rootProject.ext.test1
+//println test2
+
+//======================================= 扩展属性调用 end===========================================
+
+//======================================= 文件操作 API start========================================
+/**
+ * 1、file 方法应用
+ */
+//1、通过 file 方法传入一个相对路径，返回值是一个 file 对象
+//println file('../config.gradle').text
+
+//2、通过 new File 方式传入一个绝对路径
+//def file = new File('/Users/zhouying/learning/GradleDemo/config.gradle')
+//println file.text
+
+
+/**
+ * 2、files 方法应用
+ */
+//通过 files 方法传入多个相对路径，返回值是一个 ConfigurableFileCollection 即文件集合
+//files('../config.gradle','../build.gradle').each {
+//    println it.name
+//}
+//======================================= 文件操作 API end==========================================
+
+//======================================= 文件拷贝 API start========================================
+/**
+ * 1、将根目录下的 config.gradle 文件拷贝拷贝到 app 目录下
+ */
+//1、传入路径
+//copy {
+//    from getRootDir().path + "/config.gradle"
+//    into getProjectDir().path
+//}
+
+//2、传入文件
+//copy {
+//    from file('../config.gradle')
+//    into getProjectDir()
+//}
+
+/**
+ * 2、将根目录下的 gradle 文件夹下的所有文件和文件夹拷贝到 app 目录下的 gradle 文件夹
+ */
+//copy {
+//    from file('../gradle/')
+//    into getProjectDir().path + "/gradle/"
+//}
+//======================================= 文件拷贝 API end==========================================
+
+
+//======================================= 文件树映射 API start======================================
+/**
+ * 遍历根目录下的 gradle 文件夹，并打印文件及文件夹的名称
+ */
+//fileTree('../gradle/'){ FileTree fileTree ->
+//    fileTree.visit { FileTreeElement fileTreeElement ->
+//        println fileTreeElement.name
+//    }
+//}
+//======================================= 文件树映射 API end========================================
+
+//======================================= exec 外部命令执行 API start================================
+/**
+ * 使用外部命令，将我们存放的 apk 目录移动到项目的根目录
+ */
+//task taskMove() {
+//    doLast {
+//        // 在 gradle 的执行阶段去执行
+//        def sourcePath = buildDir.path + "/outputs/apk"
+//        def destinationPath = getRootDir().path
+//        def command = "mv -f $sourcePath $destinationPath"
+//        exec {
+//            try {
+//                executable "bash"
+//                args "-c", command
+//                println "The command execute is success"
+//            } catch (GradleException e) {
+//                e.printStackTrace()
+//                println "The command execute is failed"
+//            }
+//        }
+//    }
+//}
+//======================================= exec 外部命令执行 API start================================
+
+//=======================================doFirst,doLast start===========================================
+/**
+ * doFirst,doLast
+ */
+//task erdai(dependsOn: erdai1){
+//    println 'task start...'
+//
+//    doFirst {
+//        println 'doFirst1'
+//    }
+//
+//    doLast {
+//        println 'doLast1'
+//    }
+//
+//    doLast {
+//        println 'doLast2'
+//    }
+//
+//    println 'task end...'
+//}
+//======================================= doFirst,doLast end=============================================
+
+
+//======================================= task 类型 start=================================================
+
+/**
+ * Task 类型
+ */
+// 1、继承 Delete 这个类，删除根目录下的 build 文件
+//task deleteTask(type: Delete) {
+//    delete rootProject.buildDir
+//}
+//
+//通过 extends 关键字指定
+//class DeleteTask extends Delete{
+//
+//}
+//
+//DeleteTask deleteTask = tasks.create("deleteTask",DeleteTask)
+//deleteTask.delete(rootProject.buildDir)
+//task testDeleteTask(dependsOn: deleteTask)
+
+//// 2、继承 Copy 这个类
+//task copyTask(type: Copy) {
+//    //...
+//}
+//
+////通过 extends 关键字指定
+//class CopyTask extends Copy{
+//    //...
+//}
+//======================================= task 类型 end===================================================
+
+
+//======================================= Task 定义及配置 start===================================================
+//1、创建一个名为 task1 的 Task
+//task task1
+
+//2、创建一个名为 task2 的 Task，并通过闭包进行相应的配置
+//task task2{
+//    //指定 task 的分组
+//    group 'erdai666'
+//
+//    doFirst{
+//
+//    }
+//}
+
+//3、创建一个名为 task3 的 Task，该 Task 继承自 Copy 这个 Task，依赖 task2
+//task task3(type: Copy){
+//    dependsOn "task2"
+//    doLast{
+//
+//    }
+//}
+
+//4、创建一个名为 task4 的 Task 并指定了分组和描述
+//task task4(group: "erdai666", description: "task4") {
+//    doFirst {
+//
+//    }
+//
+//    doLast {
+//
+//    }
+//}
+
+//5、通过 Project 对象的 TaskContainer 创建名为 task5 的 Task
+//tasks.create("task5"){
+//
+//}
+
+//6、通过 Project 对象的 TaskContainer 创建名为 task6 的 Task
+//相对于 5 ，只是调用了不同的重载方法而已
+//tasks.create(name: "task6"){
+//
+//}
+//======================================= Task 定义及配置 end=====================================================
+
+
+//======================================= Task 执行实战 计算 build Task 耗时 start=====================================================
+//// Task 执行实战：计算 build 执行期间的耗时
+//def startBuildTime, endBuildTime
+//// 1、在 Gradle 配置阶段完成之后进行操作，
+//// 以此保证要执行的 task 配置完毕
+//this.afterEvaluate { Project project ->
+//    // 2、找到当前 project 下第一个执行的 task，即 preBuild task
+//    def preBuildTask = project.tasks.getByName("preBuild")
+//    preBuildTask.doFirst {
+//        // 3、获取第一个 task 开始执行时刻的时间戳
+//        startBuildTime = System.currentTimeMillis()
+//    }
+//    // 4、找到当前 project 下最后一个执行的 task，即 build task
+//    def buildTask = project.tasks.getByName("build")
+//    buildTask.doLast {
+//        // 5、获取最后一个 task 执行完成前一瞬间的时间戳
+//        endBuildTime = System.currentTimeMillis()
+//        // 6、输出 build 执行期间的耗时
+//        println "Current project execute time is ${endBuildTime - startBuildTime}"
+//    }
+//}
+//======================================= Task 执行实战 计算 build Task 耗时 end=======================================================
+
+//======================================= dependsOn 强依赖方式 start==================================================================
+
+/**
+ * 静态依赖
+ */
+//task taskA{
+//    doLast {
+//        println 'taskA'
+//    }
+//}
+//
+//task taskB{
+//    doLast {
+//        println 'taskB'
+//    }
+//}
+//
+//task taskC(dependsOn: taskA){//多依赖方式 dependsOn:[taskA,taskB]
+//    doLast {
+//        println 'taskC'
+//    }
+//}
+
+/**
+ * 动态依赖
+ */
+//task lib1 {
+//    doLast{
+//        println 'lib1'
+//    }
+//}
+//task lib2 {
+//    doLast{
+//        println 'lib2'
+//    }
+//}
+//task lib3 {
+//    doLast{
+//        println 'lib3'
+//    }
+//}
+//
+//// 动态指定taskX依赖所有以lib开头的task
+//task taskDynamic{
+//    // 动态指定依赖
+//    dependsOn tasks.findAll{ Task task ->
+//        return task.name.startsWith('lib')
+//    }
+//
+//    doLast {
+//        println 'taskDynamic'
+//    }
+//}
+//======================================= dependsOn 强依赖方式 end====================================================================
+
+
+
+//======================================= 通过 Task 输入输出指定执行顺序 start====================================================================
+//ext {
+//    testFile = file("${projectDir.path}/test.txt")
+//    if(testFile == null || !testFile.exists()){
+//        testFile.createNewFile()
+//    }
+//}
+//
+////输出 Task
+//task outputTask {
+//    outputs.file testFile
+//    doLast {
+//        outputs.getFiles().singleFile.withWriter { writer ->
+//            writer.append("erdai666")
+//        }
+//        println "outputTask 执行结束"
+//    }
+//}
+//
+////输入 Task
+//task inputTask(dependsOn: outputTask) {
+//    inputs.file testFile
+//    doLast {
+//        println "读取文件内容：${inputs.files.singleFile.text}"
+//        println "inputTask 执行结束"
+//    }
+//}
+//
+////测试 Task
+//task testTask(dependsOn: [outputTask, inputTask]) {
+//    doLast {
+//        println "testTask1 执行结束"
+//    }
+//}
+//======================================= 通过 Task 输入输出指定执行顺序 end====================================================================
+
+
+//======================================= 通过 API 指定执行顺序 start====================================================================
+/**
+ * mustRunAfter
+ */
+//task taskX{
+//    doLast {
+//        println 'taskX'
+//    }
+//}
+//
+//task taskY{
+//    mustRunAfter taskX
+//    doLast {
+//        println 'taskY'
+//    }
+//}
+//
+//task taskXY(dependsOn: [taskX,taskY]){
+//    doLast {
+//        println 'taskXY'
+//    }
+//}
+
+/**
+ * finalizeBy
+ */
+//task taskI{
+//    doLast {
+//        println 'taskI'
+//    }
+//}
+//
+//task taskJ{
+//    finalizedBy taskI
+//    doLast {
+//        println 'taskJ'
+//    }
+//}
+//
+//
+//task taskIJ(dependsOn: [taskI,taskJ]){
+//    doLast {
+//        println 'taskIJ'
+//    }
+//}
+//======================================= 通过 API 指定执行顺序 end======================================================================
+
+
+
+
+//======================================= 自定义 Task 挂接到 Android 构建流程 start======================================================================
+/**
+ * 方式1：
+ * 通过 dependsOn 指定
+ * 注意：单独使用 dependsOn ，必须让构建流程中的 Task 依赖我们自定义的 Task，否则我们的 Task 不会生效
+ */
+//task myCustomTask{
+//    doLast {
+//        println 'This is myCustomTask'
+//    }
+//}
+//
+//afterEvaluate {
+//    //1、找到需要的构建流程 Task
+//    def mergeDebugResources = tasks.findByName("mergeDebugResources")
+//    //2、通过 dependsOn 指定
+//    mergeDebugResources.dependsOn(myCustomTask)
+//
+//    //如果换成下面这种写法则自定义 Task 不会生效
+//    //myCustomTask.dependsOn(mergeDebugResources)
+//}
+
+/**
+ * 方式二：
+ * 通过 finalizedBy 指定
+ */
+//task myCustomTask{
+//    doLast {
+//        println 'This is myCustomTask'
+//    }
+//}
+//
+//afterEvaluate {
+//    def mergeDebugResources = tasks.findByName("mergeDebugResources")
+//    //将 myCustomTask 挂接在 mergeDebugResources 后面执行
+//    mergeDebugResources.finalizedBy(myCustomTask)
+//}
+
+/**
+ * 方式三：
+ *通过 mustRunAfter 配合 dependsOn 指定
+ */
+//task myCustomTask{
+//    doLast {
+//        println 'This is myCustomTask'
+//    }
+//}
+//
+//afterEvaluate {
+//    //在 mergeDebugResources 和 processDebugResources 之间插入 myCustomTask
+//    def processDebugResources = tasks.findByName("processDebugResources")
+//    def mergeDebugResources = tasks.findByName("mergeDebugResources")
+//    myCustomTask.mustRunAfter(mergeDebugResources)
+//    processDebugResources.dependsOn(myCustomTask)
+//}
+//======================================= 自定义 Task 挂接到 Android 构建流程 end========================================================================
+
+

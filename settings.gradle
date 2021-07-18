@@ -1,0 +1,57 @@
+rootProject.name = "GradleDemo"
+include ':app'
+
+////================================== 打印 Gradle 构建各个阶段及各个任务的耗时 start ========================================
+////初始化阶段开始时间
+//long beginOfSetting = System.currentTimeMillis()
+////配置阶段开始时间
+//def beginOfConfig
+////配置阶段是否开始了，只执行一次
+//def configHasBegin = false
+////存放每个 build.gradle 执行之前的时间
+//def beginOfProjectConfig = new HashMap()
+////执行阶段开始时间
+//def beginOfTaskExecute
+////初始化阶段执行完毕
+//gradle.projectsLoaded {
+//    println "初始化总耗时 ${System.currentTimeMillis() - beginOfSetting} ms"
+//}
+//
+////build.gradle 执行前
+//gradle.beforeProject {Project project ->
+//    if(!configHasBegin){
+//        configHasBegin = true
+//        beginOfConfig = System.currentTimeMillis()
+//    }
+//    beginOfProjectConfig.put(project,System.currentTimeMillis())
+//}
+//
+////build.gradle 执行后
+//gradle.afterProject {Project project ->
+//    def begin = beginOfProjectConfig.get(project)
+//    println "配置阶段，$project 耗时：${System.currentTimeMillis() - begin} ms"
+//}
+//
+////配置阶段完毕
+//gradle.taskGraph.whenReady {
+//    println "配置阶段总耗时：${System.currentTimeMillis() - beginOfConfig} ms"
+//    beginOfTaskExecute = System.currentTimeMillis()
+//}
+//
+////执行阶段
+//gradle.taskGraph.beforeTask {Task task ->
+//    task.doFirst {
+//        task.ext.beginOfTask = System.currentTimeMillis()
+//    }
+//
+//    task.doLast {
+//        println "执行阶段，$task 耗时：${System.currentTimeMillis() - task.ext.beginOfTask} ms"
+//    }
+//}
+//
+////执行阶段完毕
+//gradle.buildFinished {
+//    println "执行阶段总耗时：${System.currentTimeMillis() - beginOfTaskExecute}"
+//}
+////================================== 打印 Gradle 构建各个阶段及各个任务的耗时 end ========================================
+

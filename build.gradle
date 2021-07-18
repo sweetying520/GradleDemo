@@ -1,0 +1,68 @@
+apply from: 'config.gradle'
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven{
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        //noinspection AndroidGradlePluginVersion
+        classpath "com.android.tools.build:gradle:4.2.1"
+        classpath "gradle.plugin.com.dorongold.plugins:task-tree:1.5"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+//======================================= Project 常用 API start=====================================
+/**
+ * 5、获取当前 Project 及其子 Project 对象，返回值是一个 Set 集合
+ */
+//println getAllprojects()
+
+//闭包形式
+//allprojects {
+//    println it
+//}
+
+/**
+ * 6、获取当前 Project 下的所有子 Project 对象，返回值是一个 Set 集合
+ */
+//println getSubprojects()
+
+//闭包形式
+//subprojects {
+//    println it
+//}
+
+/**
+ * 9、指定工程实例，然后在闭包中对其进行相关的配置
+ */
+//project("app") {
+//    apply plugin: 'com.android.application'
+//}
+//======================================= Project 常用 API end=====================================
+
+//======================================= 扩展属性定义 start============================================
+//方式1：ext.属性名
+ext.test = 'erdai666'
+
+//方式2：ext 后面接上一个闭包
+ext{
+    test1 = 'erdai777'
+}
+//======================================= 扩展属性定义 end============================================

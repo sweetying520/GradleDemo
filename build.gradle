@@ -11,6 +11,11 @@ buildscript {
 //        maven{
 //            url uri('customplugin')
 //        }
+
+        //远程 JitPack 仓库地址
+//        maven {
+//            url 'https://jitpack.io'
+//        }
     }
     dependencies {
         //noinspection AndroidGradlePluginVersion
@@ -19,6 +24,9 @@ buildscript {
 
         //引入插件依赖
         //classpath 'com.dream:customplugin:1.0.0'
+
+        //引入插件依赖
+//        classpath 'com.github.sweetying520:GradleDemo:1.0.0'
     }
 }
 

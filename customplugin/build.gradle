@@ -48,7 +48,7 @@ gradlePlugin {
 
 //================================JitPack 上传插件配置 start=========================================
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.sweetying520'
+group='com.dream'
 
 buildscript {
     repositories {

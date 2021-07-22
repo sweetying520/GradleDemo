@@ -7,11 +7,18 @@ buildscript {
         maven{
             url "https://plugins.gradle.org/m2/"
         }
+        //本地 Maven 仓库
+//        maven{
+//            url uri('customplugin')
+//        }
     }
     dependencies {
         //noinspection AndroidGradlePluginVersion
         classpath "com.android.tools.build:gradle:4.2.1"
         classpath "gradle.plugin.com.dorongold.plugins:task-tree:1.5"
+
+        //引入插件依赖
+        //classpath 'com.dream:customplugin:1.0.0'
     }
 }
 

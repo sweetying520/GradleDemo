@@ -1,0 +1,62 @@
+apply plugin: 'groovy'
+apply plugin: 'java-gradle-plugin'
+//apply plugin: 'maven'
+
+
+
+//引入相关的依赖
+dependencies {
+    //Groovy DSL
+    implementation gradleApi()
+    //Gradle DSL
+    implementation localGroovy()
+}
+
+//引入相关的仓库
+repositories {
+    mavenCentral()
+}
+
+//Gradle 配置的方式注册插件
+gradlePlugin {
+    plugins {
+        greeting {
+            // 插件id
+            id = 'CustomPlugin'
+            // 插件实现类
+            implementationClass = 'com.dream.plugin.CustomPlugin'
+        }
+    }
+}
+
+
+//将插件打包上传到本地maven仓库
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            pom.groupId = 'com.dream'
+//            pom.artifactId = 'customplugin'
+//            pom.version = '1.0.0'
+//            //指定本地 maven 仓库的路径
+//            repository(url: uri('../customplugin')){
+//                authentication(userName: '用户民', password: "密码")
+//            }
+//        }
+//    }
+//}
+
+
+//================================JitPack 上传插件配置 start=========================================
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.sweetying520'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        //JitPack插件
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+    }
+}
+//================================JitPack 上传插件配置 start=========================================

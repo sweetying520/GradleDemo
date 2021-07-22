@@ -1,0 +1,40 @@
+apply plugin: 'groovy'
+apply plugin: 'java-gradle-plugin'
+
+//引入相关的依赖
+dependencies {
+    //Groovy DSL
+    implementation gradleApi()
+    //Gradle DSL
+    implementation localGroovy()
+}
+
+//引入相关的仓库
+repositories {
+    mavenCentral()
+}
+
+//指定好相关资源目录，实际上也可以不用指定，AndroidStudio 能够自动识别出来
+sourceSets {
+    main {
+        groovy {
+            srcDir 'src/main/groovy'
+        }
+
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+}
+
+//Gradle 配置的方式注册插件
+//gradlePlugin {
+//    plugins {
+//        greeting {
+//            // 插件id
+//            id = 'BuildSrcPlugin1'
+//            // 插件实现类
+//            implementationClass = 'com.dream.plugin.BuildSrcPlugin'
+//        }
+//    }
+//}

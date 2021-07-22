@@ -54,4 +54,4 @@ include ':app'
 //    println "执行阶段总耗时：${System.currentTimeMillis() - beginOfTaskExecute}"
 //}
 ////================================== 打印 Gradle 构建各个阶段及各个任务的耗时 end ========================================
-
+include ':customplugin'

@@ -1,0 +1,13 @@
+
+//扩展属性
+ext{
+    property1 = 'erdai'
+    property2 = '666'
+}
+
+//自定义的 Task
+task scriptTask{
+    doLast {
+        println 'Hello, I am Script Plugin'
+    }
+}

@@ -32,7 +32,7 @@ sourceSets {
 //    plugins {
 //        greeting {
 //            // 插件id
-//            id = 'BuildSrcPlugin1'
+//            id = 'BuildSrcPlugin'
 //            // 插件实现类
 //            implementationClass = 'com.dream.plugin.BuildSrcPlugin'
 //        }

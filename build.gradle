@@ -30,7 +30,7 @@ buildscript {
 
         //Github 创建的 release: 1.0.0, 1.0.1, 1.0.4 是通过 com.github.dcendents.android-maven 插件上传的
         //引入插件依赖
-//        classpath 'com.github.sweetying520:GradleDemo:1.0.1'
+//        classpath 'com.github.sweetying520:GradleDemo:1.0.4'
 
         //Github 创建的 release: 1.0.2, 1.0.3 是通过 maven-publish 插件上传的
         //引入插件依赖 使用 maven-publish 插件上传 JitPack 获取的依赖地址，特别长

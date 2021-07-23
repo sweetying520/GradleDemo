@@ -5,7 +5,7 @@ apply from: 'plugin_register.gradle'
 //apply from: 'maven.gradle'
 
 //上传到远程 JitPack 仓库打开此配置
-apply from: 'jitpack.gradle'
+//apply from: 'jitpack.gradle'
 
 //使用 maven-publish 上传到远程 JitPack 仓库打开此配置，获取的插件依赖地址特别长
 //apply plugin: 'maven-publish'

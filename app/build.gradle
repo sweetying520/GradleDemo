@@ -534,7 +534,6 @@ dependencies {
  * buildSrc 插件引用
  */
 //apply plugin: 'BuildSrcPlugin'
-//apply plugin: 'BuildSrcPlugin1'
 
 /**
  * 自定义插件引用

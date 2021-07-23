@@ -1,12 +1,14 @@
 apply plugin: 'groovy'
 apply from: 'plugin_register.gradle'
+
 //上传到本地 maven 仓库打开此配置
 //apply from: 'maven.gradle'
-apply plugin: 'maven-publish'
-
 
 //上传到远程 JitPack 仓库打开此配置
-//apply from: 'jitpack.gradle'
+apply from: 'jitpack.gradle'
+
+//使用 maven-publish 上传到远程 JitPack 仓库打开此配置，获取的插件依赖地址特别长
+//apply plugin: 'maven-publish'
 
 //引入相关的依赖
 dependencies {

@@ -1,14 +1,2 @@
-//================================JitPack 上传远程仓库插件配置 start=========================================
-//apply plugin: 'com.github.dcendents.android-maven'
-//group = 'com.github.sweetying520'
-//
-//buildscript {
-//    repositories {
-//        mavenCentral()
-//    }
-//    dependencies {
-//        //JitPack插件
-//        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-//    }
-//}
-//================================JitPack 上传远程仓库插件配置 end============================================
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.sweetying520'

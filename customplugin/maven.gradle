@@ -1,0 +1,20 @@
+//================================将插件打包上传到本地maven仓库 start=========================================
+apply plugin: 'maven'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId = 'com.dream'
+            pom.artifactId = 'customplugin'
+            pom.version = '1.0.0'
+            //指定本地 maven 仓库的路径
+            repository(url: uri('../customplugin'))
+
+            //指定远程仓库地址
+//            repository(url: uri('远程仓库地址')){
+//                authentication(userName: '用户民', password: "密码")
+//            }
+        }
+    }
+}
+//================================将插件打包上传到本地maven仓库 end===========================================

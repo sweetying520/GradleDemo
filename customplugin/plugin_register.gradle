@@ -1,0 +1,15 @@
+//插件注册脚本配置
+
+apply plugin: 'java-gradle-plugin'
+
+//Gradle 配置的方式注册插件
+gradlePlugin {
+    plugins {
+        greeting {
+            // 插件id
+            id = 'CustomPlugin'
+            // 插件实现类
+            implementationClass = 'com.dream.plugin.CustomPlugin'
+        }
+    }
+}

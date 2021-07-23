@@ -26,7 +26,7 @@ buildscript {
         //classpath 'com.dream:customplugin:1.0.0'
 
         //引入插件依赖
-//        classpath 'com.github.sweetying520:GradleDemo:1.0.0'
+//        classpath 'com.github.sweetying520:GradleDemo:1.0.1'
     }
 }
 
@@ -74,10 +74,10 @@ task clean(type: Delete) {
 
 //======================================= 扩展属性定义 start============================================
 //方式1：ext.属性名
-ext.test = 'erdai666'
+//ext.test = 'erdai666'
 
 //方式2：ext 后面接上一个闭包
-ext{
-    test1 = 'erdai777'
-}
+//ext{
+//    test1 = 'erdai777'
+//}
 //======================================= 扩展属性定义 end============================================

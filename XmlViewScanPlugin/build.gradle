@@ -1,0 +1,43 @@
+apply plugin: 'groovy'
+apply plugin: 'java-gradle-plugin'
+apply plugin: 'maven'
+
+//引入相关的依赖
+dependencies {
+    //Groovy DSL
+    implementation gradleApi()
+    //Gradle DSL
+    implementation localGroovy()
+    //AGP 相关 API
+    implementation "com.android.tools.build:gradle:4.2.1"
+}
+
+//引入相关的仓库
+repositories {
+    google()
+    mavenCentral()
+}
+
+//Gradle 配置的方式注册插件
+gradlePlugin {
+    plugins {
+        greeting {
+            // 插件id
+            id = 'XmlViewScanPlugin'
+            // 插件实现类
+            implementationClass = 'com.dream.xmlviewscanplugin.XmlViewScanPlugin'
+        }
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId = 'com.dream'
+            pom.artifactId = 'xmlviewscanplugin'
+            pom.version = '1.0.3'
+            //指定本地 maven 仓库的路径
+            repository(url: uri('../XmlViewScanPlugin'))
+        }
+    }
+}

@@ -16,11 +16,34 @@ android {
     }
 
     buildTypes {
+        debug{
+
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+
+
+//    productFlavors{
+//
+//        flavorDimensions 'isFree'
+//
+//        baidu{
+//            dimension 'isFree'
+//        }
+//
+//        google{
+//            dimension 'isFree'
+//        }
+//
+//        winxin{
+//            dimension 'isFree'
+//        }
+//    }
 }
 
 def implementationLibMap = implementationLib
@@ -544,3 +567,372 @@ dependencies {
 //============================================对象插件 end ============================================
 /**============================================== Gradle 系列 （三）、Gradle 插件开发 end =============================================================*/
 
+
+/**============================================== Gradle 系列 （四）、Gradle 插件实战应用 start =============================================================*/
+/**
+ * Extension 介绍
+ */
+//class Animal{
+//
+//    String animalName
+//    int legs
+//
+//    void animalName(String animalName){
+//        this.animalName = animalName
+//    }
+//
+//    void legs(int legs){
+//        this.legs = legs
+//    }
+//
+//    void setAnimalName(String animalName) {
+//        this.animalName = animalName
+//    }
+//
+//    void setLegs(int legs) {
+//        this.legs = legs
+//    }
+//
+//    Animal(){
+//
+//    }
+//
+//    Animal(String animalName) {
+//        this.animalName = animalName
+//    }
+//
+//    String toString() {
+//        return "This animal is $animalName, it has $legs legs."
+//    }
+//}
+//
+//class Dog extends Animal{
+//    int age = 5
+//
+//    Dog(){
+//
+//    }
+//
+//    Dog(int age) {
+//        super("Dog")
+//        this.age = age
+//    }
+//
+//    String toString() {
+//        return super.toString() + " Its age is $age."
+//    }
+//}
+
+//====================================== ExtensionContainer create 系列方法 start ======================================
+////=================== ExtensionContainer create 第一个重载方法 =========================
+//project.extensions.create('animal1',Dog)
+//
+////=================== ExtensionContainer create 第二个重载方法 =========================
+//project.extensions.create(Animal,'animal2',Dog,10)
+//
+////=================== ExtensionContainer create 第三个重载方法 =========================
+//project.extensions.create(TypeOf.typeOf(Animal),'animal3',Dog,15)
+
+//animal1{
+//    animalName '大黄'
+//    legs 4
+//}
+//
+//animal2{
+//    animalName '二黄'
+//    legs 4
+//}
+//
+//animal3{
+//    animalName '三黄'
+//    legs 4
+//}
+//====================================== ExtensionContainer create 系列方法 end ======================================
+
+
+
+//====================================== ExtensionContainer add 系列方法 start ======================================
+////=================== ExtensionContainer add 第一个重载方法 =========================
+//project.extensions.add('animal1',Dog)
+//
+////=================== ExtensionContainer add 第二个重载方法 =========================
+//project.extensions.add(Animal,'animal2',new Dog(10))
+//
+////=================== ExtensionContainer add 第三个重载方法 =========================
+//project.extensions.add(TypeOf.typeOf(Animal),'animal3',new Dog(15))
+//
+//animal1{
+//    animalName '大黄'
+//    legs 4
+//}
+//
+////注意：add 系列第二个和第三个重载方法，当我们显示的创建了类实例，那么在进行扩展配置的时候，需要加上 = 号，否则会报错
+//animal2{
+//    animalName '二黄'
+//    legs = 4
+//}
+//
+//animal3{
+//    animalName '三黄'
+//    legs = 4
+//}
+//====================================== ExtensionContainer add 系列方法 end ======================================
+
+//project.task('testTask'){
+//    doLast {
+//        println project.animal1
+//        println project.animal2
+//        println project.animal3
+//    }
+//}
+
+/**
+ * 通过 ExtensionContainer getByName 和 findByName 系列方法查找 Extension
+ */
+//println project.extensions.getByName("animal1")
+//println project.extensions.getByName("animal2")
+//println project.extensions.getByName("animal3")
+//
+//println project.extensions.findByName("animal1")
+//println project.extensions.findByName("animal2")
+//println project.extensions.findByName("animal3")
+
+/**
+ * 嵌套 Extension
+ */
+
+//class AndroidExt{
+//
+//    int compileSdkVersionExt
+//
+//    //==================嵌套方式一 start==================================
+//    //通过定义方法配置嵌套 Extension
+//
+//    DefaultConfigExt defaultConfigExt = new DefaultConfigExt()
+//
+//
+//    /**
+//     * 方式1:
+//     * 通过 Action 创建内部 Extension，名称为方法名 defaultConfig
+//     *
+//     * @param action 可执行的动作，实质上是一个代码块
+//     */
+//    void defaultConfigExt(Action<DefaultConfigExt> action) {
+//        action.execute(defaultConfigExt)
+//    }
+//
+//    /**
+//     * 方式2:
+//     * 通过 ConfigureUtil 创建内部 Extension，名称为方法名 defaultConfig
+//     *
+//     * @param closure 闭包，实质上是一个代码块
+//     */
+//    void defaultConfigExt(Closure<DefaultConfigExt> closure) {
+//        org.gradle.util.ConfigureUtil.configure(closure, defaultConfigExt)
+//    }
+//    //==================嵌套方式一 end=====================================
+//
+//
+//    //==================嵌套方式二 start===================================
+//    //通过定义方法配置嵌套 Extension
+//
+//
+//    AndroidExt(){
+//        extensions.create('defaultConfigExt',DefaultConfigExt)
+//    }
+//    //==================嵌套方式二 end=====================================
+//
+//}
+//
+//class DefaultConfigExt{
+//    String applicationIdExt
+//    int minSdkVersionExt
+//    int targetSdkVersionExt
+//    int versionCodeExt
+//    String versionNameExt
+//
+//}
+//
+//project.extensions.create('androidExt',AndroidExt)
+//
+//androidExt {
+//    compileSdkVersionExt 30
+//    defaultConfigExt {
+//        //没去掉 = 号
+//        applicationIdExt = 'com.dream.gradledemo'
+//        minSdkVersionExt = 19
+//        targetSdkVersionExt = 30
+//        versionCodeExt = 1
+//        versionNameExt = '1.0'
+//
+//
+//        //去掉 = 号
+//        applicationIdExt  'com.dream.gradledemo'
+//        minSdkVersionExt  19
+//        targetSdkVersionExt  30
+//        versionCodeExt  1
+//        versionNameExt  '1.0'
+//
+//    }
+//}
+//
+//project.tasks.create('extensionNested'){
+//    doLast {
+//        println project.androidExt.compileSdkVersionExt
+//        println project.androidExt.defaultConfigExt.applicationIdExt
+//        println project.androidExt.defaultConfigExt.minSdkVersionExt
+//        println project.androidExt.defaultConfigExt.targetSdkVersionExt
+//        println project.androidExt.defaultConfigExt.versionCodeExt
+//        println project.androidExt.defaultConfigExt.versionNameExt
+//    }
+//}
+
+
+/**
+ * 多个 Extension
+ */
+////第一步：增加实体类配置
+//class BuildTypesConfigExt{
+//    //注意：必须要有 name 属性进行标识
+//    String name
+//    boolean minifyEnabledExt
+//    boolean zipAlignEnabled
+//    boolean debuggableExt
+//
+//    BuildTypesConfigExt(String name) {
+//        this.name = name
+//    }
+//
+//    //=====================配置与属性同名的方法================
+//    void minifyEnabledExt(boolean minifyEnabledExt) {
+//        this.minifyEnabledExt = minifyEnabledExt
+//    }
+//
+//    void zipAlignEnabled(boolean zipAlignEnabled) {
+//        this.zipAlignEnabled = zipAlignEnabled
+//    }
+//
+//    void debuggableExt(boolean debuggableExt) {
+//        this.debuggableExt = debuggableExt
+//    }
+//}
+//
+////第二步：构建命名对象容器，并添加到 Extension
+//NamedDomainObjectContainer<BuildTypesConfigExt> container = project.container(BuildTypesConfigExt)
+//project.extensions.add('buildTypesExt',container)
+//
+////第三步：进行语句块配置
+//buildTypesExt {
+//    release {
+//        minifyEnabledExt true
+//        zipAlignEnabled true
+//        debuggableExt false
+//    }
+//
+//    debug {
+//        minifyEnabledExt false
+//        zipAlignEnabled false
+//        debuggableExt true
+//    }
+//}
+//
+////第四步：编写 Task 进行测试
+//project.tasks.create("buildTypesTask"){
+//    doLast {
+//        project.buildTypesExt.each{
+//            println "$it.name: $it.minifyEnabledExt $it.zipAlignEnabled $it.debuggableExt"
+//        }
+//    }
+//}
+
+
+//class Friend{
+//    String family
+//
+//    @Inject
+//    Friend(String family){
+//        this.family = family
+//    }
+//}
+//
+//
+//
+//class User{
+//    String myName
+//    int age
+//
+//    Friend friend
+//
+//    User(Project project) {
+//        friend = project.objects.newInstance(Friend,'Test Family')
+//    }
+//
+//    void friendConfig(Action<Friend> action){
+//        action.execute(friend)
+//    }
+//}
+//
+//project.extensions.create('user',User,project)
+//
+//user{
+//    myName 'erdai'
+//    age 666
+//
+//    friendConfig{
+//        family = 'my family'
+//    }
+//}
+//
+//task myTestTask{
+//    doLast {
+//        println project.user.myName
+//        println project.user.age
+//        println project.user.friend.family
+//    }
+//}
+
+/**
+ *遍历打印一下每个构建变体的 name 和 baseName
+ */
+//afterEvaluate {
+//    project.android.applicationVariants.all{variant ->
+//        println "$variant.name $variant.baseName"
+//
+//    }
+//}
+
+/**
+ *对 applicationVariants 中的 Task 进行 Hook
+ */
+//afterEvaluate {
+//    project.android.applicationVariants.all{ variant ->
+//        def task = variant.mergeResourcesProvider
+//        println "$task.name"
+//
+//    }
+//}
+
+
+/**
+ *使用 applicationVariants 对 APK 进行重命名
+ */
+//project.android.applicationVariants.all{ variant ->
+//    variant.outputs.all{
+//        outputFileName = "${variant.baseName}" + ".apk"
+//        println outputFileName
+//    }
+//}
+
+
+/**
+ * 插件实战应用
+ */
+//apply plugin: 'XmlViewScanPlugin'
+//
+//ignore {
+//    ignoreViewList = [
+//            'TextView'
+//    ]
+//}
+
+/**============================================== Gradle 系列 （四）、Gradle 插件实战应用 end ===============================================================*/

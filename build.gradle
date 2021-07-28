@@ -12,6 +12,11 @@ buildscript {
 //            url uri('customplugin')
 //        }
 
+        //本地 Maven 仓库
+//        maven{
+//            url uri('XmlViewScanPlugin')
+//        }
+
         //远程 JitPack 仓库地址
 //        maven {
 //            url 'https://jitpack.io'
@@ -27,6 +32,9 @@ buildscript {
 
         //引入插件依赖
         //classpath 'com.dream:customplugin:1.0.2'
+
+        //引入插件依赖
+//        classpath 'com.dream:xmlviewscanplugin:1.0.3'
 
         //Github 创建的 release: 1.0.0, 1.0.1, 1.0.4 是通过 com.github.dcendents.android-maven 插件上传的
         //引入插件依赖
